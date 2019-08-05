@@ -1,8 +1,6 @@
 # Bitprop
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/bitprop`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Define bit attributes for class
 
 ## Installation
 
@@ -22,7 +20,26 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+class SomeClass
+  include Bitprop::Bitter
+  define_bit_attr :bit_menu, [:readable, :writable, :executable]
+
+  attr_accessor :bit_skills
+end
+
+obj = SomeClass.new
+
+obj.bit_skills = 0b111
+obj.all_bit_attr_hash #=> {readable: true, writable: true, executable: true}
+
+obj.bit_skills = 0b100
+obj.all_bit_attr_hash #=> {readable: true, writable: false, executable: false}
+
+obj.bit_skills = 0b000
+obj.all_bit_attr_hash #=> {readable: true, writable: false, executable: false}
+```
+
 
 ## Development
 
