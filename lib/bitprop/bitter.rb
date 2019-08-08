@@ -5,15 +5,15 @@ module Bitprop::Bitter
 
   module ClassMethods
     def define_bit_attr(bit_attr_name, list_attr_name)
-      @@_bitprop_all_bit_attr ||= []
+      Bitprop::ClassAndPropMap.instance.add_class_and_props(self, list_attr_name)
       list_attr_name.each_with_index do | attr_name, idx |
-        @@_bitprop_all_bit_attr << attr_name
+
         define_method(attr_name) do
           0 < send(bit_attr_name) & (2 ** idx)
         end
 
         define_method("#{attr_name}=") do |bit|
-          mask = (1 << (@@_bitprop_all_bit_attr.size)) - 1
+          mask = (1 << (list_attr_name.size)) - 1
           mask -= 1 << idx
           send("#{bit_attr_name}=", send(bit_attr_name) & mask)
           if bit
@@ -25,7 +25,7 @@ module Bitprop::Bitter
     end
 
     def bit_attr_names
-      @@_bitprop_all_bit_attr
+      Bitprop::ClassAndPropMap.instance.get_props_by_class(self)
     end
   end
 
