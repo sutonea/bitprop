@@ -1,4 +1,5 @@
 require "bitprop/version"
+require "bitprop/bitter"
 
 module Bitprop
   class Error < StandardError; end
