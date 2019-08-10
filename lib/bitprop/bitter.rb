@@ -9,15 +9,15 @@ module Bitprop::Bitter
       list_attr_name.each_with_index do | attr_name, idx |
 
         define_method(attr_name) do
-          0 < send(bit_attr_name) & (2 ** idx)
+          0 < send(bit_attr_name).to_i & (2 ** idx)
         end
 
         define_method("#{attr_name}=") do |bit|
           mask = (1 << (list_attr_name.size)) - 1
           mask -= 1 << idx
-          send("#{bit_attr_name}=", send(bit_attr_name) & mask)
+          send("#{bit_attr_name}=", send(bit_attr_name).to_i & mask)
           if bit
-            send("#{bit_attr_name}=", send("#{bit_attr_name}") + (1 << idx))
+            send("#{bit_attr_name}=", send(bit_attr_name).to_i + (1 << idx))
           end
           bit_attr_name
         end
